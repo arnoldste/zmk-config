@@ -1,3 +1,5 @@
 include:
   - board: promicro_nrf52840
     shield: steering_wheel
+  - board: nice_nano_v2
+    shield: steering_wheel
