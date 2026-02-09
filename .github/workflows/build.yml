@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +21,7 @@ jobs:
       - name: West update
         run: west update
 
-      - name: Build
+      - name: Build firmware
         run: |
           west build -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG=/github/workspace/config
 
