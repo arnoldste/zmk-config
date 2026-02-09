@@ -5,19 +5,19 @@
     default_layer {
       bindings = <
         /* Joystick */
-        &kp UP        /* Joystick UP */
-        &kp DOWN      /* Joystick DOWN */
-        &kp LEFT      /* Joystick LEFT */
-        &kp RIGHT     /* Joystick RIGHT */
-        &kp ENTER     /* Joystick PRESS */
+        &kp UP_ARROW
+        &kp DOWN_ARROW
+        &kp LEFT_ARROW
+        &kp RIGHT_ARROW
+        &kp ENTER
 
         /* Buttons 1–6 */
-        &kp N1
-        &kp N2
-        &kp N3
-        &kp N4
-        &kp N5
-        &kp N6
+        &kp K_1
+        &kp K_2
+        &kp K_3
+        &kp K_4
+        &kp K_5
+        &kp K_6
       >;
     };
   };
