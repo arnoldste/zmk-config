@@ -6,15 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build (ZMK)
-        uses: zmkfirmware/zmk-build-action@v1
-        with:
-          # Wichtig: Das ist der echte Pfad im Runner
-          config_path: config
-          board: promicro_nrf52840
-          shield: steering_wheel
+    uses: urob/zmk-actions/.github/workflows/build-user-config.yml@v3
+    with:
+      build_matrix_path: config/build.yaml
+      config_path: config
