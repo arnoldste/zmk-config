@@ -27,7 +27,7 @@ jobs:
 
       - name: Build (nice_nano_v2)
         run: |
-          west build -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG=/github/workspace/config
+          west build -s zmk/app -b promicro_nrf52840 -- -DZMK_CONFIG=/github/workspace/config
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
