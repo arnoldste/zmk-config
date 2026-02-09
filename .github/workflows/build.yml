@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     container:
       image: zmkfirmware/zmk-build-arm:stable
 
@@ -21,7 +22,10 @@ jobs:
       - name: West update
         run: west update
 
-      - name: Build firmware
+      - name: Zephyr export
+        run: west zephyr-export
+
+      - name: Build (nice_nano_v2)
         run: |
           west build -s zmk/app -b nice_nano_v2 -- -DZMK_CONFIG=/github/workspace/config
 
