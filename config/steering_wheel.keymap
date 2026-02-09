@@ -1,12 +1,34 @@
 / {
-    keymap {
-        compatible = "zmk,keymap";
+  physical_layouts {
+    compatible = "zmk,physical-layouts";
 
-        default_layer {
-            bindings = <
-                &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6
-                &kp UP &kp DOWN &kp LEFT &kp RIGHT &kp ENTER
-            >;
-        };
+    default_layout {
+      display-name = "Steering Wheel";
+      transform = <&identity_transform>;
+      keys = <
+        0 0  0 1  0 2  0 3  0 4
+        0 5  0 6  0 7  0 8  0 9  0 10
+      >;
     };
+  };
+
+  keymap {
+    compatible = "zmk,keymap";
+
+    default_layer {
+      bindings = <
+        &kp UP
+        &kp DOWN
+        &kp LEFT
+        &kp RIGHT
+        &kp ENTER
+        &kp N1
+        &kp N2
+        &kp N3
+        &kp N4
+        &kp N5
+        &kp N6
+      >;
+    };
+  };
 };
