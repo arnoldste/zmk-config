@@ -4,14 +4,12 @@
 
     default_layer {
       bindings = <
-        /* Joystick */
         &kp UP_ARROW
         &kp DOWN_ARROW
         &kp LEFT_ARROW
         &kp RIGHT_ARROW
         &kp ENTER
 
-        /* Buttons 1–6 */
         &kp K_1
         &kp K_2
         &kp K_3

@@ -1,0 +1,21 @@
+/ {
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        label = "KSCAN";
+
+        input-gpios = <
+            &gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* Joystick UP */
+            &gpio0 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* Joystick DOWN */
+            &gpio0 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* LEFT */
+            &gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* RIGHT */
+            &gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* PRESS */
+
+            &gpio0 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* Button 1 */
+            &gpio0 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* Button 2 */
+            &gpio0 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)  /* Button 3 */
+            &gpio0 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP) /* Button 4 */
+            &gpio0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP) /* Button 5 */
+            &gpio0 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP) /* Button 6 */
+        >;
+    };
+};
