@@ -1,4 +1,2 @@
 config SHIELD_STEERING_WHEEL
-  bool "Steering Wheel"
-  help
-    Custom steering_wheel shield.
+    def_bool $(shields_list_contains,steering_wheel)

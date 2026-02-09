@@ -2,23 +2,23 @@
   chosen {
     zmk,kscan = &kscan0;
   };
-};
 
-&kscan0 {
-  compatible = "zmk,kscan-gpio-direct";
-  label = "KSCAN_DIRECT";
+  kscan0: kscan0 {
+    compatible = "zmk,kscan-gpio-direct";
+    wakeup-source;
 
-  input-gpios = <
-    &gpio0 2  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 3  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 4  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 5  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 6  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 7  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 8  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 9  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 10 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-    &gpio0 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
-  >;
+    input-gpios = <
+      &gpio0 2  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 3  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 4  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 5  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 6  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 7  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 8  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 9  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 10 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+    >;
+  };
 };

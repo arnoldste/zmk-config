@@ -1,0 +1,6 @@
+if SHIELD_STEERING_WHEEL
+
+config ZMK_KEYBOARD_NAME
+    default "SteeringWheel"
+
+endif
