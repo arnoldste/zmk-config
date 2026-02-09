@@ -1,24 +1,24 @@
 / {
-    chosen {
-        zmk,kscan = &kscan0;
-    };
+  chosen {
+    zmk,kscan = &kscan0;
+  };
 
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-direct";
-        label = "KSCAN0";
+  kscan0: kscan {
+    compatible = "zmk,kscan-gpio-direct";
+    label = "KSCAN";
 
-        input-gpios = <
-            &gpio0 6 (GPIO_ACTIVE_LOW)   /* Joy UP */
-            &gpio0 7 (GPIO_ACTIVE_LOW)   /* Joy DOWN */
-            &gpio0 8 (GPIO_ACTIVE_LOW)   /* Joy LEFT */
-            &gpio0 9 (GPIO_ACTIVE_LOW)   /* Joy RIGHT */
-            &gpio0 10 (GPIO_ACTIVE_LOW)  /* Joy PRESS */
-            &gpio0 11 (GPIO_ACTIVE_LOW)  /* BTN1 */
-            &gpio0 12 (GPIO_ACTIVE_LOW)  /* BTN2 */
-            &gpio0 13 (GPIO_ACTIVE_LOW)  /* BTN3 */
-            &gpio0 14 (GPIO_ACTIVE_LOW)  /* BTN4 */
-            &gpio0 15 (GPIO_ACTIVE_LOW)  /* BTN5 */
-            &gpio0 16 (GPIO_ACTIVE_LOW)  /* BTN6 */
-        >;
-    };
+    input-gpios = <
+      &gpio0 2  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 3  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 4  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 5  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 6  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 7  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 8  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 9  (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 10 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+      &gpio0 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)
+    >;
+  };
 };
