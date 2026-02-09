@@ -1,36 +1,20 @@
-name: Build ZMK firmware
+name: Build ZMK
 
 on:
   push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    container:
-      image: zmkfirmware/zmk-build-arm:stable
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: West init
-        run: west init -l config
-
-      - name: West update
-        run: west update
-
-      - name: Zephyr export
-        run: west zephyr-export
-
-      - name: Build (nice_nano_v2)
-        run: |
-          west build -s zmk/app -b promicro_nrf52840 -- -DZMK_CONFIG=/github/workspace/config
-
-      - name: Upload firmware
-        uses: actions/upload-artifact@v4
+      - name: Build (ZMK)
+        uses: zmkfirmware/zmk-build-action@v1
         with:
-          name: zmk-firmware
-          path: build/zephyr/zmk.uf2
+          # Wichtig: Das ist der echte Pfad im Runner
+          config_path: config
+          board: promicro_nrf52840
+          shield: steering_wheel
