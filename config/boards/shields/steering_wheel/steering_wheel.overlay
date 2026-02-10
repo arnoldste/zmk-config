@@ -1,4 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/adc/adc.h>
+#include <dt-bindings/adc/nrf-saadc.h>
 
 / {
   chosen {
@@ -51,5 +53,29 @@
       RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
       RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10)
     >;
+  };
+};
+
+&adc {
+  status = "okay";
+
+  channel@5 {
+    reg = <5>;
+    zephyr,gain = "ADC_GAIN_1_6";
+    zephyr,reference = "ADC_REF_INTERNAL";
+    zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 20)>;
+    zephyr,input-positive = <NRF_SAADC_AIN5>;
+    zephyr,resolution = <12>;
+    zephyr,oversampling = <4>;
+  };
+
+  channel@7 {
+    reg = <7>;
+    zephyr,gain = "ADC_GAIN_1_6";
+    zephyr,reference = "ADC_REF_INTERNAL";
+    zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 20)>;
+    zephyr,input-positive = <NRF_SAADC_AIN7>;
+    zephyr,resolution = <12>;
+    zephyr,oversampling = <4>;
   };
 };

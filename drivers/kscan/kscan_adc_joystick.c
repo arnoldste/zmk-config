@@ -62,11 +62,14 @@ static int adc_read_raw(const struct adc_dt_spec *spec, int32_t *out_raw) {
     int16_t raw = 0;
     struct adc_sequence sequence = {0};
 
-    adc_sequence_init_dt(spec, &sequence);
+    int ret = adc_sequence_init_dt(spec, &sequence);
+    if (ret < 0) {
+        return ret;
+    }
     sequence.buffer = &raw;
     sequence.buffer_size = sizeof(raw);
 
-    int ret = adc_read_dt(spec, &sequence);
+    ret = adc_read_dt(spec, &sequence);
     if (ret < 0) {
         return ret;
     }
