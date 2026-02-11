@@ -48,6 +48,7 @@ struct kscan_adc_joystick_data {
     int8_t axis_x;
     int8_t axis_y;
     bool enabled;
+    bool adc_ready;
 };
 
 static bool gpio_is_pressed(const struct gpio_dt_spec *gpio) {
@@ -127,29 +128,33 @@ static int kscan_adc_joystick_scan(const struct device *dev) {
     struct kscan_adc_joystick_data *data = dev->data;
     const struct kscan_adc_joystick_config *cfg = dev->config;
 
-    int32_t x_raw = 0;
-    int32_t y_raw = 0;
-    int ret = adc_read_raw(&cfg->adc_x, &x_raw);
-    if (ret < 0) {
-        LOG_ERR("ADC X read failed: %d", ret);
-        return ret;
-    }
+    int8_t axis_x = 0;
+    int8_t axis_y = 0;
+    if (data->adc_ready) {
+        int32_t x_raw = 0;
+        int32_t y_raw = 0;
+        int ret = adc_read_raw(&cfg->adc_x, &x_raw);
+        if (ret < 0) {
+            LOG_WRN("ADC X read failed (%d), disabling joystick ADC path", ret);
+            data->adc_ready = false;
+        } else {
+            ret = adc_read_raw(&cfg->adc_y, &y_raw);
+            if (ret < 0) {
+                LOG_WRN("ADC Y read failed (%d), disabling joystick ADC path", ret);
+                data->adc_ready = false;
+            } else {
+                axis_x = axis_from_sample(x_raw, data->axis_x, cfg);
+                axis_y = axis_from_sample(y_raw, data->axis_y, cfg);
 
-    ret = adc_read_raw(&cfg->adc_y, &y_raw);
-    if (ret < 0) {
-        LOG_ERR("ADC Y read failed: %d", ret);
-        return ret;
-    }
+                if (cfg->invert_x) {
+                    axis_x = -axis_x;
+                }
 
-    int8_t axis_x = axis_from_sample(x_raw, data->axis_x, cfg);
-    int8_t axis_y = axis_from_sample(y_raw, data->axis_y, cfg);
-
-    if (cfg->invert_x) {
-        axis_x = -axis_x;
-    }
-
-    if (cfg->invert_y) {
-        axis_y = -axis_y;
+                if (cfg->invert_y) {
+                    axis_y = -axis_y;
+                }
+            }
+        }
     }
 
     uint32_t state_mask = 0U;
@@ -229,42 +234,46 @@ static int kscan_adc_joystick_init(const struct device *dev) {
     data->state_mask = 0U;
     data->axis_x = 0;
     data->axis_y = 0;
+    data->adc_ready = true;
     k_work_init_delayable(&data->work, kscan_adc_joystick_work);
 
     if (!adc_is_ready_dt(&cfg->adc_x)) {
-        LOG_ERR("ADC X device not ready");
-        return -ENODEV;
+        LOG_WRN("ADC X device not ready; continuing without joystick axis input");
+        data->adc_ready = false;
     }
 
     if (!adc_is_ready_dt(&cfg->adc_y)) {
-        LOG_ERR("ADC Y device not ready");
-        return -ENODEV;
+        LOG_WRN("ADC Y device not ready; continuing without joystick axis input");
+        data->adc_ready = false;
     }
 
-    int ret = adc_channel_setup_dt(&cfg->adc_x);
-    if (ret < 0) {
-        LOG_ERR("ADC X channel setup failed: %d", ret);
-        return ret;
-    }
+    if (data->adc_ready) {
+        int ret = adc_channel_setup_dt(&cfg->adc_x);
+        if (ret < 0) {
+            LOG_WRN("ADC X channel setup failed (%d); continuing without joystick axis input", ret);
+            data->adc_ready = false;
+        }
 
-    ret = adc_channel_setup_dt(&cfg->adc_y);
-    if (ret < 0) {
-        LOG_ERR("ADC Y channel setup failed: %d", ret);
-        return ret;
+        ret = adc_channel_setup_dt(&cfg->adc_y);
+        if (ret < 0) {
+            LOG_WRN("ADC Y channel setup failed (%d); continuing without joystick axis input", ret);
+            data->adc_ready = false;
+        }
     }
 
     for (uint8_t i = 0; i < cfg->button_count; i++) {
         const struct gpio_dt_spec *button = &cfg->buttons[i];
         if (!device_is_ready(button->port)) {
-            LOG_ERR("Button GPIO not ready: %s", button->port->name);
-            return -ENODEV;
+            LOG_WRN("Button GPIO not ready: %s (pin %u); skipping this button", button->port->name,
+                    button->pin);
+            continue;
         }
 
-        ret = gpio_pin_configure_dt(button, GPIO_INPUT);
+        int ret = gpio_pin_configure_dt(button, GPIO_INPUT);
         if (ret < 0) {
-            LOG_ERR("Button GPIO configure failed (pin %u on %s): %d", button->pin,
-                    button->port->name, ret);
-            return ret;
+            LOG_WRN("Button GPIO configure failed (pin %u on %s): %d; skipping this button",
+                    button->pin, button->port->name, ret);
+            continue;
         }
     }
 
