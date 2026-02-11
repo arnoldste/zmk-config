@@ -1,7 +1,3 @@
 include:
-  - board: nice_nano@1.0.0
-    shield: steering_wheel
-  - board: nice_nano@2.0.0
-    shield: steering_wheel
   - board: nice_nano
-    shield: steering_wheel settings_reset
+    shield: steering_wheel
